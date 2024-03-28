@@ -1,5 +1,6 @@
 import express from 'express';
 import mongoose from 'mongoose';
+import userRoute from './routes/user.route.js';
 
 
 const url='mongodb+srv://yadavlav571:Corona@mern-blog-webapp.ccan9i6.mongodb.net/Mern-Blog-WebApp?retryWrites=true&w=majority&appName=Mern-Blog-WebApp';
@@ -19,3 +20,10 @@ const app = express();
 app.listen(3000, () => {
   console.log('Server is running on port 3000 ');
 });
+
+// app.get('/test',(req,res)=>{
+//        res.send('Hello World');
+// });
+
+app.use('/api/user',userRoute);
+
