@@ -61,8 +61,8 @@ const handleSubmit = async (e) => {
       setLoading(false);
 
       if(res.ok){
-        // If the response is successful, navigate to the '/signIn' route
-        navigate('/signIn');
+        // If the response is successful, navigate to the '/signin' route
+        navigate('/signin');
       }
 
   } catch (err) {
@@ -117,7 +117,7 @@ const handleSubmit = async (e) => {
 
             <div className="">
               <Label value="Your Password" />
-              <TextInput type="password" placeholder="Password" id="password" onChange={handleChange} />
+              <TextInput type="password" placeholder="*********" id="password" onChange={handleChange} />
             </div>
 {/*//!--------------- Sign-up Button -----------------------*/}
             <Button gradientDuoTone="purpleToPink" type="submit"
@@ -137,7 +137,7 @@ const handleSubmit = async (e) => {
 
           <div className="flex gap-2 text-sm mt-5">
             <span>Have an account?</span>
-            <Link to="/signIn" className="text-blue-500">
+            <Link to="/signin" className="text-blue-500">
               Sign In
             </Link>
           </div>
