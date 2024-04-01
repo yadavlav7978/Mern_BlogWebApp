@@ -1,5 +1,6 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import userReducer from "./user/userSlice";
+import themeReducer from './theme/themeSlice';
 import storage from "redux-persist/lib/storage"; // defaults to localStorage for web
 import { persistReducer, persistStore } from "redux-persist";
 
@@ -26,6 +27,7 @@ const persistConfig = {
 // If we have two or more reducers in Redux Toolkit ,then we can add in one reducer known as rootReducer.
 const rootReducer = combineReducers({
   user: userReducer,
+  theme:themeReducer,
 });
 
 // It transforms a normal reducer into a persisted reducer by wrapping it with persistence logic.
