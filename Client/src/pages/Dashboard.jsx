@@ -24,11 +24,9 @@ export default function Dashboard() {
         {/*------------------------------Sidebar------------------------- */}
         <DashSideBar />
       </div>
-      <div>
-        {/*------------------------------Profile------------------------- */}
-        {tab === "profile" && <DashProfile />}{" "}
-        {/*It will only 'DashProfile' when tab===profile*/}
-      </div>
+      {/*------------------------------Profile------------------------- */}
+      {tab === "profile" && <DashProfile />}{" "}
+      {/*It will only 'DashProfile' when tab===profile*/}
     </div>
   );
 }
