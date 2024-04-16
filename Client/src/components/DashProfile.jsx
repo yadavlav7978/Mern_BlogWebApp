@@ -9,6 +9,9 @@ import {
 } from "firebase/storage";
 import { app } from "../firebase";
 
+import { CircularProgressbar } from "react-circular-progressbar";
+import "react-circular-progressbar/dist/styles.css";
+
 export default function DashProfile() {
   const { currentUser } = useSelector((state) => state.user);
 
@@ -22,7 +25,6 @@ export default function DashProfile() {
 
   const filePicker = useRef(); // It is used to create a refernce to the file input element.
 
-  console.log(imageFileUploadError);
   // Function to handle changes in the selected image
   const handleImageChange = (e) => {
     // Retrieve the selected file from the input event
@@ -68,12 +70,11 @@ export default function DashProfile() {
       "state_changed",
       (snapshot) => {
         // Calculate the upload progress percentage
-        const progress = Math.round(
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100
-        );
-
+        const progress =
+          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
         // Update the upload progress state variable
-        setImageFileUploadProgress(progress);
+
+        setImageFileUploadProgress(progress.toFixed(0));
       },
       (error) => {
         // Handle upload errors
@@ -108,9 +109,31 @@ export default function DashProfile() {
         />
         {/*This line creates an input element that allows users to select files */}
         <div
-          className="w-32 h-32 self-center cursor-pointer"
+          className="relative w-32 h-32 self-center cursor-pointer"
           onClick={() => filePicker.current.click()} // When clicked, it triggers a click event on the file input element (filePicker.current.click()), allowing the user to select a file.
         >
+          {imageFileUploadProgress && (
+            <CircularProgressbar
+              value={imageFileUploadProgress || 0}
+              text={`${imageFileUploadProgress}%`}
+              strokeWidth={5}
+              styles={{
+                root: {
+                  width: "100%",
+                  height: "100%",
+                  position: "absolute",
+                  top: 0,
+                  left: 0,
+                },
+                path: {
+                  stroke: `rgba(62, 152, 199, ${
+                    imageFileUploadProgress / 100
+                  })`,
+                },
+              }}
+            />
+          )}
+
           <img
             src={imageFileUrl || currentUser.profilePicture} // If the image file url exist then show it, else show the profile picture
             alt="user"
