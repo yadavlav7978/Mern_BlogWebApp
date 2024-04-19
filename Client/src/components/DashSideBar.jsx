@@ -16,7 +16,7 @@ export default function DashSideBar() {
     if (tabFromUrl) {
       setTab(tabFromUrl);
     }
-  }, location.search);
+  }, [location.search]);
 
   return (
     <Sidebar className="w-full md:w-56">
@@ -28,6 +28,7 @@ export default function DashSideBar() {
               icon={HiUser}
               label={"User"}
               labelColor="dark"
+              as="div"
             >
               Profile
             </Sidebar.Item>
