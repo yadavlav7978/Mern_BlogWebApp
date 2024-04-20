@@ -82,3 +82,21 @@ export const deleteUser = async (req, res, next) => {
     res.status(200).json("User deleted successfully");
   } catch (error) {}
 };
+
+//!---------------- signout function --------------------------
+{
+  /* We can implement the sign-out functionality is by deleting or clearing session cookies.
+  Session cookies are used to store information about a user's session, including authentication tokens or session IDs.
+  When a user signs out of the application, it's a common practice to delete these session cookies to invalidate their session and log them out.*/
+}
+
+export const signout = (req, res, next) => {
+  try {
+    res
+      .clearCookie("access_token")
+      .status(200)
+      .json("User has been sign out successfully.");
+  } catch (error) {
+    next(error);
+  }
+};

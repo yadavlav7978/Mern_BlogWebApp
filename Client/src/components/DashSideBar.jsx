@@ -1,11 +1,15 @@
 import { Sidebar } from "flowbite-react";
 import { HiUser, HiArrowSmRight } from "react-icons/hi";
 import React, { useEffect, useState } from "react";
-import { useLocation, Link } from "react-router-dom";
+import { useLocation, Link, useNavigate } from "react-router-dom";
+import { signOutSuccess } from "../redux/user/userSlice.js";
+import { useDispatch } from "react-redux";
 
 export default function DashSideBar() {
   const location = useLocation(); //It is used to access the current location of object in our component.
   const [tab, setTab] = useState("");
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     // In this case, the UseEffect should only run when the location.search value changes.
@@ -17,6 +21,23 @@ export default function DashSideBar() {
       setTab(tabFromUrl);
     }
   }, [location.search]);
+
+  const handleSignOut = async () => {
+    try {
+      const res = await fetch("/api/user/signout", {
+        method: "POST",
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        console.log(data.message);
+      } else {
+        dispatch(signOutSuccess());
+        navigate("/signin");
+      }
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
 
   return (
     <Sidebar className="w-full md:w-56">
@@ -34,7 +55,11 @@ export default function DashSideBar() {
             </Sidebar.Item>
           </Link>
 
-          <Sidebar.Item icon={HiArrowSmRight} className="cursor-pointer">
+          <Sidebar.Item
+            icon={HiArrowSmRight}
+            className="cursor-pointer"
+            onClick={handleSignOut}
+          >
             Sign Out
           </Sidebar.Item>
         </Sidebar.ItemGroup>
