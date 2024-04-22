@@ -12,6 +12,7 @@ import {
 import { app } from "../firebase";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { useNavigate } from "react-router-dom";
 
 export default function CreatePost() {
   // State variables for managing file, upload progress, upload error, and form data
@@ -19,7 +20,10 @@ export default function CreatePost() {
   const [imageUploadProgress, setImageUploadProgress] = useState(null); // Progress of image upload
   const [imageUploadError, setImageUploadError] = useState(null); // Error message during image upload
   const [formData, setFormData] = useState(null); // Form data including the uploaded image URL
+  const [publishError, setPublishError] = useState(null);
+  const navigate = useNavigate();
 
+  console.log(formData);
   // Function to handle image upload
   const handleUploadImage = async () => {
     try {
@@ -74,10 +78,35 @@ export default function CreatePost() {
       setImageUploadProgress(null);
     }
   };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await fetch("/api/post/create", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+      const data = await res.json();
+      console.log(data);
+
+      if (!res.ok) {
+        setPublishError(data.message);
+        return;
+      } else {
+        setPublishError(null);
+        navigate(`/post/${data.slug}`);
+      }
+    } catch (error) {
+      setPublishError("something went wrong.");
+    }
+  };
   return (
     <div className="p-3 max-w-3xl mx-auto min-h-screen">
       <h1 className="text-center text-3xl my-7 font-semibold">Create a post</h1>
-      <form className="flex flex-col gap-4">
+      <form className="flex flex-col gap-4" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-4 sm:flex-row justify-between">
           <TextInput
             type="text"
@@ -85,8 +114,15 @@ export default function CreatePost() {
             required
             id="title"
             className="flex-1"
+            onChange={(e) =>
+              setFormData({ ...formData, title: e.target.value })
+            }
           />
-          <Select>
+          <Select
+            onChange={(e) =>
+              setFormData({ ...formData, category: e.target.value })
+            }
+          >
             <option value="uncategorised">Select a category</option>
             <option value="HTML">HTML</option>
             <option value="CSS">CSS</option>
@@ -137,10 +173,16 @@ export default function CreatePost() {
           placeholder="Write something..."
           className="h-72 mb-12"
           required
+          onChange={(value) => setFormData({ ...formData, content: value })}
         />
         <Button type="submit" gradientDuoTone="purpleToPink">
           Publish
         </Button>
+        {publishError && (
+          <Alert className="mt-5" color="failure">
+            {publishError}
+          </Alert>
+        )}
       </form>
     </div>
   );
