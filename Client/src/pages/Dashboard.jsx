@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import DashProfile from "../components/DashProfile.jsx";
 import DashSideBar from "../components/DashSideBar.jsx";
 import DashPosts from "../components/DashPosts.jsx";
+import DashUsers from "../components/DashUsers.jsx";
 
 export default function Dashboard() {
   const location = useLocation(); //It is used to access the current location of object in our component.
@@ -30,6 +31,8 @@ export default function Dashboard() {
       {/*It will only 'DashProfile' when tab===profile*/}
       {/*----------------------Posts-------------------------*/}
       {tab === "posts" && <DashPosts />}
+      {/*---------Users----------*/}
+      {tab === "users" && <DashUsers />}
     </div>
   );
 }
