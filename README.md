@@ -8,4 +8,4 @@
 • Add an intuitive admin dashboard with CRUD operations for posts, comments, and user management,
   utilizing MongoDB as the backend. also add advanced search functionality powered by MongoDB’s query
   techniques, which allow users to perform precise searches by title, limit results, and sort through a modern
-  sidebar
+  sidebar.
